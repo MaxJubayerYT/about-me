@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaxJubayerYT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --border: #1e1e2e;
+      --accent: #00eaff;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --card: #13131c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,234,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,234,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -220px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(0,234,255,0.10) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      50%       { opacity: 1;   transform: translateX(-50%) scale(1.08); }
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 100px 0 60px;
+      text-align: center;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .avatar-ring {
+      display: inline-block;
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--accent), #fff, var(--accent), transparent);
+      animation: spin 4s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      overflow: hidden;
+      background: #000;
+      position: relative;
+      z-index: 1;
+    }
+
+    .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .status-dot {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 14px;
+      height: 14px;
+      background: #22c55e;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+      50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--accent), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .bio {
+      font-size: 0.94rem;
+      color: #9090a8;
+      max-width: 520px;
+      margin: 0 auto 30px;
+      line-height: 1.85;
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      background: var(--card);
+      text-transform: uppercase;
+    }
+
+    .badge.live {
+      border-color: rgba(0,234,255,0.4);
+      color: var(--accent);
+      background: rgba(0,234,255,0.07);
+    }
+
+    /* SECTIONS */
+    section { padding: 46px 0; }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* FEATURED */
+    .featured-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px 30px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,234,255,0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.22s;
+    }
+
+    .featured-card:hover::before { opacity: 1; }
+    .featured-card:hover {
+      border-color: rgba(0,234,255,0.38);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(0,234,255,0.08);
+    }
+
+    .featured-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(0,234,255,0.08);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .featured-icon img { width: 28px; height: 28px; }
+
+    .featured-info h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .featured-info p { font-size: 0.81rem; color: var(--muted); line-height: 1.6; }
+
+    .featured-arrow {
+      margin-left: auto;
+      font-size: 1.3rem;
+      color: var(--muted);
+      transition: transform 0.18s, color 0.18s;
+    }
+
+    .featured-card:hover .featured-arrow { transform: translateX(5px); color: var(--accent); }
+
+    /* LINKS GRID */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+
+    .link-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 17px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      transition: all 0.18s ease;
+    }
+
+    .link-card:hover {
+      border-color: rgba(0,234,255,0.28);
+      background: rgba(0,234,255,0.04);
+      transform: translateY(-1px);
+    }
+
+    .link-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .link-icon img  { width: 20px; height: 20px; }
+    .link-icon svg  { width: 20px; height: 20px; }
+
+    /* per-brand bg tints */
+    .li-yt       { background: rgba(255,0,0,0.14); }
+    .li-twitch   { background: rgba(145,71,255,0.14); }
+    .li-tiktok   { background: rgba(255,255,255,0.07); }
+    .li-patreon  { background: rgba(255,66,77,0.14); }
+    .li-x        { background: rgba(255,255,255,0.07); }
+    .li-bsky     { background: rgba(0,133,255,0.14); }
+    .li-ig       { background: rgba(225,48,108,0.14); }
+    .li-discord  { background: rgba(88,101,242,0.14); }
+    .li-reddit   { background: rgba(255,69,0,0.14); }
+    .li-fb       { background: rgba(24,119,242,0.14); }
+    .li-github   { background: rgba(255,255,255,0.07); }
+    .li-gitlab   { background: rgba(252,109,38,0.14); }
+    .li-linkedin { background: rgba(10,102,194,0.14); }
+    .li-modrinth { background: rgba(27,217,106,0.14); }
+    .li-curse    { background: rgba(241,100,54,0.14); }
+    .li-namemc   { background: rgba(0,234,255,0.09); }
+    .li-copper   { background: rgba(0,234,255,0.09); }
+
+    .link-info { overflow: hidden; }
+
+    .link-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .link-handle {
+      font-size: 0.72rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .divider { height: 1px; background: var(--border); }
+
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="avatar-ring">
+      <div class="avatar">
+        <img src="https://i.imgur.com/IJuHRmx.jpeg" alt="MaxJubayerYT" />
+        <div class="status-dot"></div>
+      </div>
+    </div>
+    <h1>Max<span>JubayerYT</span></h1>
+    <p class="tagline">Content Creator · Developer · Gamer</p>
+    <p class="bio">
+      Making content, building tools, and breaking games — all at once.
+      Streamer on Twitch, creator on YouTube, and developer behind CopperLauncher.
+    </p>
+    <div class="badges">
+      <span class="badge live">🔴 Live on Twitch</span>
+      <span class="badge">Minecraft Modder</span>
+      <span class="badge">Open Source</span>
+      <span class="badge">Content Creator</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FEATURED PROJECT -->
+  <section class="reveal">
+    <div class="section-label">Featured Project</div>
+    <a href="https://copperlauncher.github.io/CopperLauncher/" target="_blank" class="featured-card">
+      <div class="featured-icon">
+        <img src="https://cdn.simpleicons.org/github/00eaff" alt="GitHub" />
+      </div>
+      <div class="featured-info">
+        <h3>CopperLauncher</h3>
+        <p>A custom Minecraft launcher built from scratch. Open-source and available on GitHub.</p>
+      </div>
+      <div class="featured-arrow">→</div>
+    </a>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTENT & STREAMING -->
+  <section class="reveal">
+    <div class="section-label">Content &amp; Streaming</div>
+    <div class="links-grid">
+
+      <a href="https://www.youtube.com/@MaxJubayerYT" target="_blank" class="link-card">
+        <div class="link-icon li-yt">
+          <img src="https://cdn.simpleicons.org/youtube/ff0000" alt="YouTube" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">YouTube</div>
+          <div class="link-handle">@MaxJubayerYT</div>
+        </div>
+      </a>
+
+      <a href="https://www.twitch.tv/maxjubayeryt" target="_blank" class="link-card">
+        <div class="link-icon li-twitch">
+          <img src="https://cdn.simpleicons.org/twitch/9147ff" alt="Twitch" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Twitch</div>
+          <div class="link-handle">maxjubayeryt</div>
+        </div>
+      </a>
+
+      <a href="https://www.tiktok.com/@maxjubayeryt" target="_blank" class="link-card">
+        <div class="link-icon li-tiktok">
+          <img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">TikTok</div>
+          <div class="link-handle">@maxjubayeryt</div>
+        </div>
+      </a>
+
+      <a href="https://patreon.com/MaxJubayerYT" target="_blank" class="link-card">
+        <div class="link-icon li-patreon">
+          <img src="https://cdn.simpleicons.org/patreon/ff424d" alt="Patreon" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Patreon</div>
+          <div class="link-handle">MaxJubayerYT</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SOCIAL -->
+  <section class="reveal">
+    <div class="section-label">Social</div>
+    <div class="links-grid">
+
+      <a href="https://x.com/MaxJubayerYT" target="_blank" class="link-card">
+        <div class="link-icon li-x">
+          <img src="https://cdn.simpleicons.org/x/ffffff" alt="X" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">X / Twitter</div>
+          <div class="link-handle">@MaxJubayerYT</div>
+        </div>
+      </a>
+
+      <a href="https://bsky.app/profile/maxjubayeryt.bsky.social" target="_blank" class="link-card">
+        <div class="link-icon li-bsky">
+          <img src="https://cdn.simpleicons.org/bluesky/0085ff" alt="Bluesky" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Bluesky</div>
+          <div class="link-handle">maxjubayeryt.bsky.social</div>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/maxjubayeryt/" target="_blank" class="link-card">
+        <div class="link-icon li-ig">
+          <img src="https://cdn.simpleicons.org/instagram/e1306c" alt="Instagram" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Instagram</div>
+          <div class="link-handle">@maxjubayeryt</div>
+        </div>
+      </a>
+
+      <a href="https://discord.com/invite/r8wUtzMzUe" target="_blank" class="link-card">
+        <div class="link-icon li-discord">
+          <img src="https://cdn.simpleicons.org/discord/5865f2" alt="Discord" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Discord</div>
+          <div class="link-handle">Join the server</div>
+        </div>
+      </a>
+
+      <a href="http://reddit.com/r/MaxJubayerYT" target="_blank" class="link-card">
+        <div class="link-icon li-reddit">
+          <img src="https://cdn.simpleicons.org/reddit/ff4500" alt="Reddit" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Reddit</div>
+          <div class="link-handle">r/MaxJubayerYT</div>
+        </div>
+      </a>
+
+      <a href="https://www.facebook.com/maxjubayer.yt.2025" target="_blank" class="link-card">
+        <div class="link-icon li-fb">
+          <img src="https://cdn.simpleicons.org/facebook/1877f2" alt="Facebook" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Facebook</div>
+          <div class="link-handle">maxjubayer.yt.2025</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- DEV & GAMING -->
+  <section class="reveal">
+    <div class="section-label">Dev &amp; Gaming</div>
+    <div class="links-grid">
+
+      <a href="https://github.com/MaxJubayerYT" target="_blank" class="link-card">
+        <div class="link-icon li-github">
+          <img src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">GitHub</div>
+          <div class="link-handle">MaxJubayerYT</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/CopperLauncher/CopperLauncher" target="_blank" class="link-card">
+        <div class="link-icon li-copper">
+          <img src="https://cdn.simpleicons.org/github/00eaff" alt="CopperLauncher" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">CopperLauncher</div>
+          <div class="link-handle">GitHub Repo</div>
+        </div>
+      </a>
+
+      <a href="https://gitlab.com/maxjubayeryt" target="_blank" class="link-card">
+        <div class="link-icon li-gitlab">
+          <img src="https://cdn.simpleicons.org/gitlab/fc6d26" alt="GitLab" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">GitLab</div>
+          <div class="link-handle">maxjubayeryt</div>
+        </div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/maxjubayer-yt-a82945356/" target="_blank" class="link-card">
+        <div class="link-icon li-linkedin">
+          <img src="https://cdn.simpleicons.org/linkedin/0a66c2" alt="LinkedIn" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">LinkedIn</div>
+          <div class="link-handle">maxjubayer-yt</div>
+        </div>
+      </a>
+
+      <a href="https://modrinth.com/user/MaxJubayerYT" target="_blank" class="link-card">
+        <div class="link-icon li-modrinth">
+          <img src="https://cdn.simpleicons.org/modrinth/1bd96a" alt="Modrinth" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">Modrinth</div>
+          <div class="link-handle">MaxJubayerYT</div>
+        </div>
+      </a>
+
+      <a href="https://www.curseforge.com/members/maxjubayeryt/projects" target="_blank" class="link-card">
+        <div class="link-icon li-curse">
+          <img src="https://cdn.simpleicons.org/curseforge/f16436" alt="CurseForge" />
+        </div>
+        <div class="link-info">
+          <div class="link-name">CurseForge</div>
+          <div class="link-handle">maxjubayeryt</div>
+        </div>
+      </a>
+
+      <a href="https://namemc.com/profile/MaxJubayerYT" target="_blank" class="link-card">
+        <div class="link-icon li-namemc">
+          <!-- NameMC has no Simple Icons entry; using a Minecraft-style block icon -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="8" height="8" rx="1" fill="#00eaff" opacity="0.9"/>
+            <rect x="13" y="3" width="8" height="8" rx="1" fill="#00eaff" opacity="0.6"/>
+            <rect x="3" y="13" width="8" height="8" rx="1" fill="#00eaff" opacity="0.6"/>
+            <rect x="13" y="13" width="8" height="8" rx="1" fill="#00eaff" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="link-info">
+          <div class="link-name">NameMC</div>
+          <div class="link-handle">MaxJubayerYT</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <footer>
+    <p>© 2025 MaxJubayerYT · All rights reserved</p>
+    <p style="margin-top:8px">Built with 🩵 · <a href="https://www.youtube.com/@MaxJubayerYT">Subscribe on YouTube</a></p>
+  </footer>
+
+</div>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
